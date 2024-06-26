@@ -2,11 +2,11 @@
 #include "skiplist.h"
 namespace
 {
-    class shm_helpers_test : public ::testing::Test
+    class skiplist_test : public ::testing::Test
     {
     };
 
-    TEST_F(shm_helpers_test, move_data_through_ring_buffer)
+    TEST_F(skiplist_test, simple_test_1)
     {
         auto sl = new Skiplist;
         sl->add(1);
@@ -18,6 +18,165 @@ namespace
         ASSERT_FALSE(sl->erase(0)); // no '0' so can't remove
         ASSERT_TRUE(sl->erase(1));  // there is '1', so return true
         ASSERT_FALSE(sl->search(1));
+        delete sl;
     }
 
+    TEST_F(skiplist_test, simple_test_2)
+    {
+        auto sl = new Skiplist;
+        sl->add(9);
+        sl->add(16);
+        sl->add(33);
+        sl->add(8);
+        sl->add(13);
+        sl->add(2);
+        sl->add(11);
+        sl->add(14);
+        sl->add(15);
+        sl->add(4);
+        sl->add(17);
+        sl->add(18);
+        sl->add(15);
+        sl->add(24);
+        sl->add(29);
+        sl->add(30);
+        sl->add(3);
+        sl->add(10);
+        ASSERT_EQ(true, sl->search(11));
+        ASSERT_EQ(false, sl->search(12));
+        ASSERT_EQ(false, sl->search(5));
+        sl->add(6);
+        ASSERT_EQ(true, sl->search(9));
+        ASSERT_EQ(true, sl->erase(30));
+        sl->add(9);
+        sl->add(24);
+        ASSERT_EQ(true, sl->search(13));
+        ASSERT_EQ(false, sl->erase(30));
+        ASSERT_EQ(false, sl->search(7));
+        sl->add(16);
+        ASSERT_EQ(false, sl->erase(25));
+        ASSERT_EQ(false, sl->search(26));
+        sl->add(31);
+        ASSERT_EQ(true, sl->search(24));
+        ASSERT_EQ(true, sl->erase(9));
+        ASSERT_EQ(true, sl->search(24));
+        ASSERT_EQ(true, sl->search(3));
+        ASSERT_EQ(true, sl->search(10));
+        ASSERT_EQ(true, sl->search(3));
+        ASSERT_EQ(true, sl->erase(8));
+        sl->add(11);
+        ASSERT_EQ(true, sl->search(2));
+        sl->add(19);
+        sl->add(20);
+        ASSERT_EQ(false, sl->search(21));
+        ASSERT_EQ(true, sl->erase(10));
+        sl->add(1);
+        ASSERT_EQ(false, sl->erase(32));
+        ASSERT_EQ(true, sl->erase(33));
+        ASSERT_EQ(false, sl->search(12));
+        ASSERT_EQ(false, sl->erase(23));
+        sl->add(22);
+        ASSERT_EQ(true, sl->search(1));
+        ASSERT_EQ(true, sl->erase(22));
+        ASSERT_EQ(false, sl->search(7));
+        ASSERT_EQ(false, sl->erase(10));
+        ASSERT_EQ(false, sl->erase(27));
+        sl->add(0);
+        ASSERT_EQ(false, sl->search(25));
+        sl->add(32);
+        ASSERT_EQ(false, sl->search(25));
+        sl->add(2);
+        ASSERT_EQ(false, sl->erase(25));
+        ASSERT_EQ(true, sl->search(18));
+        ASSERT_EQ(true, sl->search(15));
+        sl->add(2);
+        sl->add(1);
+        sl->add(20);
+        sl->add(13);
+        sl->add(10);
+        ASSERT_EQ(true, sl->erase(17));
+        ASSERT_EQ(true, sl->search(4));
+        sl->add(17);
+        ASSERT_EQ(true, sl->erase(2));
+        ASSERT_EQ(false, sl->erase(23));
+        ASSERT_EQ(true, sl->erase(0));
+        ASSERT_EQ(true, sl->erase(29));
+        sl->add(0);
+        ASSERT_EQ(true, sl->search(13));
+        ASSERT_EQ(true, sl->erase(20));
+        ASSERT_EQ(false, sl->search(23));
+        ASSERT_EQ(true, sl->erase(10));
+        sl->add(25);
+        sl->add(16);
+        sl->add(31);
+        ASSERT_EQ(true, sl->search(20));
+        ASSERT_EQ(true, sl->search(19));
+        ASSERT_EQ(true, sl->search(6));
+        ASSERT_EQ(true, sl->erase(1));
+        ASSERT_EQ(false, sl->search(12));
+        ASSERT_EQ(false, sl->search(21));
+        ASSERT_EQ(true, sl->search(16));
+        ASSERT_EQ(true, sl->search(19));
+        ASSERT_EQ(true, sl->search(24));
+        ASSERT_EQ(false, sl->search(7));
+        sl->add(22);
+        ASSERT_EQ(true, sl->erase(11));
+        sl->add(22);
+        sl->add(15);
+        ASSERT_EQ(true, sl->search(2));
+        ASSERT_EQ(true, sl->search(11));
+        ASSERT_EQ(true, sl->search(4));
+        ASSERT_EQ(true, sl->search(15));
+        sl->add(30);
+        ASSERT_EQ(true, sl->search(13));
+        sl->add(24);
+        sl->add(15);
+        ASSERT_EQ(true, sl->erase(4));
+        ASSERT_EQ(true, sl->search(13));
+        ASSERT_EQ(true, sl->search(6));
+        sl->add(5);
+        sl->add(24);
+        sl->add(1);
+        ASSERT_EQ(false, sl->erase(26));
+        sl->add(33);
+        ASSERT_EQ(true, sl->erase(14));
+        ASSERT_EQ(false, sl->search(23));
+        ASSERT_EQ(true, sl->erase(18));
+        ASSERT_EQ(true, sl->erase(9));
+        sl->add(12);
+        ASSERT_EQ(false, sl->erase(23));
+        ASSERT_EQ(true, sl->search(0));
+        ASSERT_EQ(true, sl->search(3));
+        ASSERT_EQ(false, sl->erase(4));
+        sl->add(17);
+        ASSERT_EQ(true, sl->erase(12));
+        ASSERT_EQ(true, sl->search(1));
+        ASSERT_EQ(false, sl->erase(18));
+        sl->add(5);
+        ASSERT_EQ(false, sl->search(18));
+        sl->add(9);
+        ASSERT_EQ(true, sl->search(32));
+        ASSERT_EQ(false, sl->erase(27));
+        ASSERT_EQ(true, sl->search(0));
+        ASSERT_EQ(false, sl->erase(29));
+        sl->add(16);
+        ASSERT_EQ(true, sl->search(15));
+        ASSERT_EQ(true, sl->search(2));
+        ASSERT_EQ(true, sl->search(5));
+        ASSERT_EQ(false, sl->search(12));
+        ASSERT_EQ(true, sl->search(3));
+        ASSERT_EQ(true, sl->search(32));
+        ASSERT_EQ(false, sl->search(27));
+        ASSERT_EQ(true, sl->search(32));
+        ASSERT_EQ(true, sl->search(5));
+        ASSERT_EQ(false, sl->search(8));
+        ASSERT_EQ(true, sl->search(15));
+        ASSERT_EQ(false, sl->search(4));
+        ASSERT_EQ(false, sl->search(29));
+        ASSERT_EQ(true, sl->search(24));
+        ASSERT_EQ(true, sl->search(11));
+        ASSERT_EQ(false, sl->search(8));
+        ASSERT_EQ(true, sl->search(33));
+        delete sl;
+    }
 } // namespace

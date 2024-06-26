@@ -1,5 +1,6 @@
 #include <functional>
 #include <climits>
+#include <vector>
 // Generic implementation of a segment tree.
 //
 //
@@ -69,7 +70,7 @@ private:
     // 1.      2
     // 3
     //
-    vector<vector<CounterT>> t;
+    std::vector<std::vector<CounterT>> t;
 
     void prepare_st(int l)
     {

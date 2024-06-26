@@ -1,7 +1,7 @@
 class Skiplist {
 private:
     struct Node {
-        vector<pair<Node*, Node*>> column;
+        std::vector<std::pair<Node*, Node*>> column;
         int key;
         int count;
     };
@@ -36,10 +36,10 @@ public:
     Skiplist() {
         left.key = INT_MIN;
         left.count = 0;
-        left.column.push_back(make_pair<Node*, Node*>(nullptr, &right));
+        left.column.push_back(std::make_pair<Node*, Node*>(nullptr, &right));
         right.key = INT_MAX;
         right.count = 0;
-        right.column.push_back(make_pair<Node*, Node*>(&left, nullptr));
+        right.column.push_back(std::make_pair<Node*, Node*>(&left, nullptr));
     }
 
     bool search(int target) {
@@ -54,7 +54,7 @@ public:
             return;
         }
         // create new node with frequency of 1
-        auto nn = new Node(vector<pair<Node*,Node*>>(1,make_pair(n->column[0].first, n)),
+        auto nn = new Node(std::vector<std::pair<Node*,Node*>>(1,std::make_pair(n->column[0].first, n)),
                             num, 1);
 
         // attach new node to predecessor and successor    
@@ -69,7 +69,7 @@ public:
                 right.column.push_back(right.column.back());
                 right.column.back().first = nn;
             
-                nn->column.push_back(make_pair(&left, &right));
+                nn->column.push_back(std::make_pair(&left, &right));
             } else {
                 assert (nn->column.size() <  left.column.size());
                 Node * nl = nn->column.back().first;
@@ -87,7 +87,7 @@ public:
                 nr->column[nn->column.size()].first = nn;
                 nl->column[nn->column.size()].second = nn;
 
-                nn->column.push_back(make_pair(nl, nr));
+                nn->column.push_back(std::make_pair(nl, nr));
             }
         }
     }
